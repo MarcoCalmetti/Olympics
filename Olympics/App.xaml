@@ -4,6 +4,27 @@
              xmlns:local="clr-namespace:Olympics"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <!-- Possiamo andare a mettere tutti gli stili dell'applicazione all'interno di questo Tag-->
+
+            <Style x:Key="TitleLabel" TargetType="Label">
+                <Setter Property="FontSize" Value="36"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+
+            <Style x:Key="TextboxProperties" TargetType="TextBox">
+                <Setter Property="Margin" Value="10 0 10 0"/>
+            </Style>
+
+            <Style x:Key="ButtonProperties" TargetType="Button">
+                <Setter Property="Margin" Value="10 0 10 0"/>
+            </Style>
+
+            <Style x:Key="ComboboxProperties" TargetType="ComboBox">
+                <Setter Property="Margin" Value="0 0 10 0"/>
+            </Style>
+        </ResourceDictionary>
+
     </Application.Resources>
 </Application>

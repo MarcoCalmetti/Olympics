@@ -6,10 +6,11 @@
         xmlns:local="clr-namespace:Olympics"
         mc:Ignorable="d"
         Title="Olympics" Height="450" Width="800">
-    <Grid Margin="10">
+    <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width=""/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
             <ColumnDefinition/>
             <ColumnDefinition/>
             <ColumnDefinition/>
@@ -18,16 +19,50 @@
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="60"/>
             <RowDefinition Height="15"/>
             <RowDefinition Height="25"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="15"/>
             <RowDefinition Height="70*"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
-        <Label Grid.Row="2">Name</Label>
-        <TextBox Grid.Row="3" Grid.Column="0"></TextBox>
-        <Label Grid.Row="2">Name</Label>
+
+        <Image Grid.Row="1" Grid.Column="7" Source="Images/Logo.png" Margin="10"></Image>
+        <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" FontSize="24" FontWeight="Bold" Margin="10 10 10 10">Athlets of the Olympic Games</Label>
+        <Label Grid.Row="3" Margin="10 0 0 0">Name</Label>
+        <TextBox Grid.Row="4" Grid.Column="0" Style="{StaticResource TextboxProperties}"></TextBox>
+        <Label Grid.Row="3" Grid.Column="1">Sex</Label>
+        <ComboBox Grid.Row="4" Grid.Column="1" Style="{StaticResource ComboboxProperties}"></ComboBox>
+        <Label Grid.Row="3" Grid.Column="2">Games</Label>
+        <ComboBox Grid.Row="4" Grid.Column="2" Style="{StaticResource ComboboxProperties}"></ComboBox>
+        <Label Grid.Row="3" Grid.Column="3" >Sport</Label>
+        <ComboBox Grid.Row="4" Grid.Column="3" Style="{StaticResource ComboboxProperties}"></ComboBox>
+        <Label Grid.Row="3" Grid.Column="4">Event</Label>
+        <ComboBox Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" Style="{StaticResource ComboboxProperties}"></ComboBox>
+        <Label Grid.Row="3" Grid.Column="6">Medal</Label>
+        <ComboBox Grid.Row="4" Grid.Column="6" Style="{StaticResource ComboboxProperties}"></ComboBox>
+        <Button Grid.Row="4" Grid.Column="7" Margin="0 0 10 0">Azzera Filtri</Button>
+        <DataGrid Margin="10 0 10 10" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="8" IsReadOnly="True"></DataGrid>
+        <!--StackPanel da fare-->
+        <Button Grid.Row="7" Margin="10 0 25 0" Grid.Column="2">&lt;&lt;</Button>
+        <Button Grid.Row="7" Grid.ColumnSpan="2" Margin="70 0 50 0" Grid.Column="2">&lt;</Button>
+        <Button Grid.Row="7" Grid.ColumnSpan="2" Margin="50 0 70 0" Grid.Column="3">&gt;</Button>
+        <Button Grid.Row="7" Margin="25 0 10 0" Grid.Column="4">&gt;&gt;</Button>
+        <Label Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="3" VerticalAlignment="Top" HorizontalAlignment="Center" > Pagina 1 di N</Label>
+        <ComboBox Grid.Row="7" Grid.Column="7" Style="{StaticResource ComboboxProperties}"></ComboBox>
         
+        
+        <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="7">
+            <MenuItem Header="File">
+                <MenuItem Header="Exit" Click="MenuItem_Click"/>
+            </MenuItem>
+            <MenuItem Header="?">
+                <MenuItem Header="About" Click="MenuItem_Click_1"/>
+            </MenuItem>
+        </Menu>
     </Grid>
 </Window>

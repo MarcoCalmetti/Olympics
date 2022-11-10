@@ -21,12 +21,22 @@ namespace Olympics
     /// </summary>
     public partial class MainWindow : Window
     {
-        MainWindowViewModel vm;
+        //MainWindowViewModel vm;
         public MainWindow()
         {
             InitializeComponent();
-            vm = new MainWindowViewModel();
-            DataContext = vm;
+            //vm = new MainWindowViewModel();
+            //DataContext = vm;
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Marco Calmetti");
         }
     }
 }
