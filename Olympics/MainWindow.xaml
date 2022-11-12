@@ -40,9 +40,9 @@
         <Label Grid.Row="3" Grid.Column="2">Games</Label>
         <ComboBox SelectedItem="{Binding SelectedGames, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding ListaGames}" Grid.Row="4" Grid.Column="2" Style="{StaticResource ComboboxProperties}"></ComboBox>
         <Label Grid.Row="3" Grid.Column="3" >Sport</Label>
-        <ComboBox ItemsSource="{Binding ListaSport}" SelectedItem="{Binding SelectedSport, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="3" Style="{StaticResource ComboboxProperties}"></ComboBox>
+        <ComboBox ItemsSource="{Binding ListaSport}" IsEnabled="{Binding SportComboBoxIsEnabled}" SelectedItem="{Binding SelectedSport, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="3" Style="{StaticResource ComboboxProperties}"></ComboBox>
         <Label Grid.Row="3" Grid.Column="4">Event</Label>
-        <ComboBox ItemsSource="{Binding ListaEvent}" SelectedItem="{Binding SelectedEvent, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" Style="{StaticResource ComboboxProperties}"></ComboBox>
+        <ComboBox ItemsSource="{Binding ListaEvent}" IsEnabled="{Binding EventComboBoxIsEnabled}" SelectedItem="{Binding SelectedEvent, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" Style="{StaticResource ComboboxProperties}"></ComboBox>
         <Label Grid.Row="3" Grid.Column="6">Medal</Label>
         <ComboBox ItemsSource="{Binding ListaMedal}" SelectedItem="{Binding SelectedMedal, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="6" Style="{StaticResource ComboboxProperties}"></ComboBox>
         <Button Grid.Row="4" Grid.Column="7" Margin="0 0 10 0" Click="Button_Click">Azzera Filtri</Button>

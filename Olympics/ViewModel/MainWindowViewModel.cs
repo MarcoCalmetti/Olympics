@@ -14,7 +14,7 @@ namespace Olympics.ViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void NotifyPropertyChanged(string v) // utilizziamo un metodo/funzione per semplificare il lavoro
+        protected void NotifyPropertyChanged(string v)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(v));
         }
@@ -28,6 +28,8 @@ namespace Olympics.ViewModel
             LastPageButtonIsEnabled = true;
             PreviousPageButtonIsEnabled = false;
             FirstPageButtonIsEnabled = false;
+            EventComboBoxIsEnabled = false;
+            SportComboBoxIsEnabled = false;
             SelectedRPP = 10;
             PageNumber = 1;
             UpdateData();
@@ -123,6 +125,8 @@ namespace Olympics.ViewModel
             SelectedMedal = null;
             SelectedSex = null;
             FiltraNome = null;
+            EventComboBoxIsEnabled = false;
+            SportComboBoxIsEnabled = false;
             SelectedRPP = 10;
             UpdateAndReturnToTheFirstPage();
         }
@@ -141,6 +145,8 @@ namespace Olympics.ViewModel
             set { _selectedGames = value;
                 SelectedSport = null;
                 SelectedEvent = null;
+                EventComboBoxIsEnabled = false;
+                SportComboBoxIsEnabled = true;
                 ListaSport = Partecipations.GetSports(SelectedGames);
                 UpdateAndReturnToTheFirstPage();
                 NotifyPropertyChanged("SelectedGames"); }
@@ -160,6 +166,7 @@ namespace Olympics.ViewModel
             get { return _selectedSport; }
             set { _selectedSport = value;
                 SelectedEvent = null;
+                EventComboBoxIsEnabled = true;
                 ListaEvent = Partecipations.GetEvents(SelectedGames,SelectedSport);
                 UpdateAndReturnToTheFirstPage();
                 NotifyPropertyChanged("SelectedSport"); }
@@ -263,6 +270,24 @@ namespace Olympics.ViewModel
             get { return _stringLabelPagina; }
             set { _stringLabelPagina = value; NotifyPropertyChanged("StringLabelPagina"); }
         }
+
+        private bool _eventComboBoxIsEnabled;
+        public bool EventComboBoxIsEnabled
+
+        {
+            get { return _eventComboBoxIsEnabled; }
+            set { _eventComboBoxIsEnabled = value; NotifyPropertyChanged("EventComboBoxIsEnabled"); }
+        }
+
+        private bool _sportComboBoxIsEnabled;
+        public bool SportComboBoxIsEnabled
+
+        {
+            get { return _sportComboBoxIsEnabled; }
+            set { _sportComboBoxIsEnabled = value; NotifyPropertyChanged("SportComboBoxIsEnabled"); }
+        }
+
+
 
         public void UpdateData()
         {
