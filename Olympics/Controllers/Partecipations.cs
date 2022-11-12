@@ -214,7 +214,7 @@ namespace Olympics.Controllers
             }
         }
 
-        public static int GetTotalPages(int SelectedRPP)
+        public static int GetTotalPages(int ElementsForPage, string FiltraNome, char? FiltraSesso, string Games, string Sport, string Event, string Medal)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -224,7 +224,53 @@ namespace Olympics.Controllers
                     SqlCommand command = new SqlCommand();
                     command.Connection = connection;
                     command.CommandText = "SELECT COUNT(*) FROM athletes ";
-                    return (int)command.ExecuteScalar()/SelectedRPP;
+
+                    if (!(FiltraNome is null && FiltraSesso is null && Games is null && Event is null && Medal is null))
+                    {
+                        command.CommandText += "WHERE";
+
+                        if (!(FiltraNome is null))
+                        {
+                            command.CommandText += " Name LIKE @FiltraNome AND";
+                            command.Parameters.AddWithValue("@FiltraNome", $"%{FiltraNome}%");
+                        }
+
+                        if (!(FiltraSesso is null))
+                        {
+                            command.CommandText += " Sex = @FiltraSesso AND";
+                            command.Parameters.AddWithValue("@FiltraSesso", FiltraSesso);
+                        }
+
+                        if (!(Games is null))
+                        {
+                            command.CommandText += " Games = @Games AND";
+                            command.Parameters.AddWithValue("@Games", Games);
+                        }
+
+                        if (!(Sport is null))
+                        {
+                            command.CommandText += " Sport = @Sport AND";
+                            command.Parameters.AddWithValue("@Sport", Sport);
+                        }
+
+                        if (!(Event is null))
+                        {
+                            command.CommandText += " Event = @Event AND";
+                            command.Parameters.AddWithValue("@Event", Event);
+                        }
+
+                        if (!(Medal is null))
+                        {
+                            command.CommandText += " Medal = @Medal AND";
+                            command.Parameters.AddWithValue("@Medal", Medal);
+                        }
+
+                        command.CommandText = command.CommandText.Substring(0, command.CommandText.Length - 3);
+                    }
+                    if ((int)command.ExecuteScalar() == 0)
+                        return 0;
+                    else
+                        return (int)command.ExecuteScalar() / ElementsForPage + 1;
                 }
                 catch (Exception)
                 {

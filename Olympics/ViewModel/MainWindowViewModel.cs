@@ -25,6 +25,9 @@ namespace Olympics.ViewModel
             _listaRPP = new List<int> { 10, 20, 50 };
             _listaMedal = Partecipations.GetMedal();
             NextPageButtonIsEnabled = true;
+            LastPageButtonIsEnabled = true;
+            PreviousPageButtonIsEnabled = false;
+            FirstPageButtonIsEnabled = false;
             SelectedRPP = 10;
             PageNumber = 1;
             UpdateData();
@@ -35,7 +38,7 @@ namespace Olympics.ViewModel
         public string FiltraNome
         {
             get { return _filtraNome; }
-            set { _filtraNome = value; UpdateData(); NotifyPropertyChanged("FiltraNome"); }
+            set { _filtraNome = value; UpdateAndReturnToTheFirstPage(); NotifyPropertyChanged("FiltraNome"); }
         }
 
         private List<string> _listaSessi;
@@ -45,17 +48,73 @@ namespace Olympics.ViewModel
             set { _listaSessi = value; }
         }
 
+        internal void PreviousPage()
+        {
+            PageNumber--;
+            checkButton();
+            UpdateData();
+        }
+
+        internal void FirstPage()
+        {
+            UpdateAndReturnToTheFirstPage();
+        }
+
+        internal void LastPage()
+        {
+            PageNumber = TotalPages;
+            checkButton();
+            UpdateData();
+        }
+
         internal void NextPage()
         {
+            
             PageNumber++;
+            checkButton();
             UpdateData();
+            
+        }
+
+        internal void checkButton()
+        {
+            if(PageNumber == 1)
+            {
+                PreviousPageButtonIsEnabled = false;
+                FirstPageButtonIsEnabled = false;
+            }
+            else
+            {
+                PreviousPageButtonIsEnabled = true;
+                FirstPageButtonIsEnabled = true;
+            }
+
+            if (PageNumber >= TotalPages)
+            {
+                if (TotalPages == 0)
+                {       
+                    PageNumber = 0;
+                    PreviousPageButtonIsEnabled = false;
+                    FirstPageButtonIsEnabled = false;
+                }
+
+                NextPageButtonIsEnabled = false;
+                LastPageButtonIsEnabled = false;
+                
+            }
+            else
+            {
+                NextPageButtonIsEnabled = true;
+                LastPageButtonIsEnabled = true;
+            }
+                
         }
 
         private char? _selectedSex;
         public char? SelectedSex
         {
             get { return _selectedSex; }
-            set { _selectedSex = value; UpdateData(); NotifyPropertyChanged("SelectedSex"); }
+            set { _selectedSex = value; UpdateAndReturnToTheFirstPage(); NotifyPropertyChanged("SelectedSex"); }
         }
 
         internal void ResetFiltri()
@@ -65,8 +124,7 @@ namespace Olympics.ViewModel
             SelectedSex = null;
             FiltraNome = null;
             SelectedRPP = 10;
-            PageNumber = 1;
-            UpdateData();
+            UpdateAndReturnToTheFirstPage();
         }
 
         private List<string> _listaGames;
@@ -84,7 +142,7 @@ namespace Olympics.ViewModel
                 SelectedSport = null;
                 SelectedEvent = null;
                 ListaSport = Partecipations.GetSports(SelectedGames);
-                UpdateData();
+                UpdateAndReturnToTheFirstPage();
                 NotifyPropertyChanged("SelectedGames"); }
         }
 
@@ -103,7 +161,7 @@ namespace Olympics.ViewModel
             set { _selectedSport = value;
                 SelectedEvent = null;
                 ListaEvent = Partecipations.GetEvents(SelectedGames,SelectedSport);
-                UpdateData();
+                UpdateAndReturnToTheFirstPage();
                 NotifyPropertyChanged("SelectedSport"); }
         }
 
@@ -118,7 +176,7 @@ namespace Olympics.ViewModel
         public string SelectedEvent
         {
             get { return _selectedEvent; }
-            set { _selectedEvent = value; UpdateData(); NotifyPropertyChanged("SelectedEvent"); }
+            set { _selectedEvent = value; UpdateAndReturnToTheFirstPage(); NotifyPropertyChanged("SelectedEvent"); }
         }
 
         private List<string> _listaMedal;
@@ -132,7 +190,7 @@ namespace Olympics.ViewModel
         public string SelectedMedal
         {
             get { return _selectedMedal; }
-            set { _selectedMedal = value; UpdateData(); NotifyPropertyChanged("SelectedMedal"); }
+            set { _selectedMedal = value; UpdateAndReturnToTheFirstPage(); NotifyPropertyChanged("SelectedMedal"); }
         }
 
         private List<Partecipation> _listaPartecipation;
@@ -153,7 +211,7 @@ namespace Olympics.ViewModel
         public int SelectedRPP
         {
             get { return _selectedRPP; }
-            set { _selectedRPP = value; PageNumber = 1; UpdateData(); NotifyPropertyChanged("SelectedRPP"); }
+            set { _selectedRPP = value; UpdateAndReturnToTheFirstPage(); UpdateData(); NotifyPropertyChanged("SelectedRPP"); }
         }
 
         private int? _pageNumber;
@@ -169,6 +227,30 @@ namespace Olympics.ViewModel
             get { return _nextPageButtonIsEnabled; }
             set { _nextPageButtonIsEnabled = value; NotifyPropertyChanged("NextPageButtonIsEnabled"); }
         }
+
+        private bool _lastPageButtonIsEnabled;
+        public bool LastPageButtonIsEnabled
+        {
+            get { return _lastPageButtonIsEnabled; }
+            set { _lastPageButtonIsEnabled = value; NotifyPropertyChanged("LastPageButtonIsEnabled"); }
+        }
+
+        private bool _previousPageButtonIsEnabled;
+        public bool PreviousPageButtonIsEnabled
+
+        {
+            get { return _previousPageButtonIsEnabled; }
+            set { _previousPageButtonIsEnabled = value; NotifyPropertyChanged("PreviousPageButtonIsEnabled"); }
+        }
+
+        private bool _firstPageButtonIsEnabled;
+        public bool FirstPageButtonIsEnabled
+
+        {
+            get { return _firstPageButtonIsEnabled; }
+            set { _firstPageButtonIsEnabled = value; NotifyPropertyChanged("FirstPageButtonIsEnabled"); }
+        }
+
         private int _totalPages;
         public int TotalPages
         {
@@ -184,9 +266,19 @@ namespace Olympics.ViewModel
 
         public void UpdateData()
         {
+            
             ListaPartecipation = Partecipations.LoadDataGrid(PageNumber, SelectedRPP,FiltraNome,SelectedSex,SelectedGames,SelectedSport,SelectedEvent, SelectedMedal);
-            TotalPages = Partecipations.GetTotalPages(SelectedRPP);
+            TotalPages = Partecipations.GetTotalPages(SelectedRPP, FiltraNome, SelectedSex, SelectedGames, SelectedSport, SelectedEvent, SelectedMedal);
+            checkButton();
             StringLabelPagina = Partecipations.StringLabelPagina(PageNumber, TotalPages);
         }
+
+        public void UpdateAndReturnToTheFirstPage()
+        {
+            PageNumber = 1;
+            UpdateData();
+        }
+
+        
     }
 }
