@@ -6,22 +6,22 @@ using System.Threading.Tasks;
 
 namespace Olympics.Models
 {
-    class Partecipation
+    public class Partecipation
     {
-        long Id { get; set; }
-        long? IdAthlete { get; set; }
-        string Name { get; set; }
-        char? Sex { get; set; }
-        int? Age { get; set; }
-        int? Height { get; set; }
-        int? Weight { get; set; }
-        string NOC { get; set; }
-        string Games { get; set; }
-        int? Year { get; set; }
-        string Season { get; set; }
-        string City { get; set; }
-        string Sport { get; set; }
-        string Event { get; set; }
-        string Medal { get; set; }
+        public long Id { get; set; }
+        public long? IdAthlete { get; set; }
+        public string Name { get; set; }
+        public char? Sex { get; set; }
+        public int? Age { get; set; }
+        public int? Height { get; set; }
+        public int? Weight { get; set; }
+        public string NOC { get; set; }
+        public string Games { get; set; }
+        public int? Year { get; set; }
+        public string Season { get; set; }
+        public string City { get; set; }
+        public string Sport { get; set; }
+        public string Event { get; set; }
+        public string Medal { get; set; }
     }
 }
