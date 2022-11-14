@@ -18,6 +18,7 @@ namespace Olympics.ViewModel
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(v));
         }
+
         public MainWindowViewModel()
         {
             _listaSessi = Partecipations.GetDistinctValueList("Sex");
@@ -291,7 +292,6 @@ namespace Olympics.ViewModel
 
         public void UpdateData()
         {
-            
             ListaPartecipation = Partecipations.LoadDataGrid(PageNumber, SelectedRPP,FiltraNome,SelectedSex,SelectedGames,SelectedSport,SelectedEvent, SelectedMedal);
             TotalPages = Partecipations.GetTotalPages(SelectedRPP, FiltraNome, SelectedSex, SelectedGames, SelectedSport, SelectedEvent, SelectedMedal);
             checkButton();

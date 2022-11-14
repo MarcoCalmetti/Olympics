@@ -22,7 +22,7 @@ namespace Olympics.Controllers
                     connection.Open();
                     SqlCommand command = new SqlCommand();
                     command.Connection = connection;
-                    command.CommandText = "SELECT DISTINCT " + value + " FROM athletes";
+                    command.CommandText = "SELECT DISTINCT " + value + " FROM athletes ORDER BY " + value + " DESC";
                     
 
                     using (SqlDataReader reader = command.ExecuteReader())
@@ -48,7 +48,7 @@ namespace Olympics.Controllers
                     connection.Open();
                     SqlCommand command = new SqlCommand();
                     command.Connection = connection;
-                    command.CommandText = "SELECT DISTINCT Medal FROM athletes where Medal is not null";
+                    command.CommandText = "SELECT DISTINCT Medal FROM athletes where Medal is not null ORDER BY Medal";
 
 
                     using (SqlDataReader reader = command.ExecuteReader())
@@ -77,8 +77,7 @@ namespace Olympics.Controllers
                     connection.Open();
                     SqlCommand command = new SqlCommand();
                     command.Connection = connection;
-                    command.CommandText = "SELECT DISTINCT Sport FROM athletes WHERE Games = '" + Games + "';";
-
+                    command.CommandText = "SELECT DISTINCT Sport FROM athletes WHERE Games = '" + Games + "' ORDER BY Sport;";
 
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -106,7 +105,7 @@ namespace Olympics.Controllers
                     connection.Open();
                     SqlCommand command = new SqlCommand();
                     command.Connection = connection;
-                    command.CommandText = "SELECT DISTINCT Event FROM athletes WHERE Games = '" + Games + "' and Sport = '" + Sport + "';";
+                    command.CommandText = "SELECT DISTINCT Event FROM athletes WHERE Games = '" + Games + "' and Sport = '" + Sport + "' ORDER BY Event;";
 
 
                     using (SqlDataReader reader = command.ExecuteReader())
@@ -124,6 +123,57 @@ namespace Olympics.Controllers
             }
         }
 
+        private static SqlCommand CreateStringWhereCondition(SqlCommand command, string FiltraNome, char? FiltraSesso, string Games, string Sport, string Event, string Medal)
+        {
+            command.CommandText = "SELECT * FROM athletes ";
+
+            if (!(FiltraNome is null && FiltraSesso is null && Games is null && Event is null && Medal is null))
+            {
+                command.CommandText += "WHERE";
+
+                if (!(FiltraNome is null))
+                {
+                    command.CommandText += " Name LIKE @FiltraNome AND";
+                    command.Parameters.AddWithValue("@FiltraNome", $"%{FiltraNome}%");
+                }
+
+                if (!(FiltraSesso is null))
+                {
+                    command.CommandText += " Sex = @FiltraSesso AND";
+                    command.Parameters.AddWithValue("@FiltraSesso", FiltraSesso);
+                }
+
+                if (!(Games is null))
+                {
+                    command.CommandText += " Games = @Games AND";
+                    command.Parameters.AddWithValue("@Games", Games);
+                }
+
+                if (!(Sport is null))
+                {
+                    command.CommandText += " Sport = @Sport AND";
+                    command.Parameters.AddWithValue("@Sport", Sport);
+                }
+
+                if (!(Event is null))
+                {
+                    command.CommandText += " Event = @Event AND";
+                    command.Parameters.AddWithValue("@Event", Event);
+                }
+
+                if (!(Medal is null))
+                {
+                    command.CommandText += " Medal = @Medal AND";
+                    command.Parameters.AddWithValue("@Medal", Medal);
+                }
+
+                command.CommandText = command.CommandText.Substring(0, command.CommandText.Length - 3);
+                
+            }
+
+            return command;
+        }
+
         public static List<Partecipation> LoadDataGrid(int? PageNumber, int ElementsForPage, string FiltraNome, char? FiltraSesso, string Games, string Sport, string Event, string Medal)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -133,50 +183,8 @@ namespace Olympics.Controllers
                     connection.Open();
                     SqlCommand command = new SqlCommand();
                     command.Connection = connection;
-                    command.CommandText = "SELECT * FROM athletes ";
 
-                    if (!(FiltraNome is null && FiltraSesso is null && Games is null && Event is null && Medal is null))
-                    {
-                        command.CommandText += "WHERE";
-
-                        if(!(FiltraNome is null))
-                        {
-                            command.CommandText += " Name LIKE @FiltraNome AND";
-                            command.Parameters.AddWithValue("@FiltraNome",$"%{FiltraNome}%");
-                        }
-
-                        if (!(FiltraSesso is null))
-                        {
-                            command.CommandText += " Sex = @FiltraSesso AND";
-                            command.Parameters.AddWithValue("@FiltraSesso", FiltraSesso);
-                        }
-                            
-                        if(!(Games is null))
-                        {
-                            command.CommandText += " Games = @Games AND";
-                            command.Parameters.AddWithValue("@Games", Games);
-                        }
-                            
-                        if (!(Sport is null))
-                        {
-                            command.CommandText += " Sport = @Sport AND";
-                            command.Parameters.AddWithValue("@Sport", Sport);
-                        }
-                            
-                        if (!(Event is null))
-                        {
-                            command.CommandText += " Event = @Event AND";
-                            command.Parameters.AddWithValue("@Event", Event);
-                        }
-                            
-                        if(!(Medal is null))
-                        {
-                            command.CommandText += " Medal = @Medal AND";
-                            command.Parameters.AddWithValue("@Medal", Medal);
-                        }
-
-                        command.CommandText = command.CommandText.Substring(0, command.CommandText.Length - 3);
-                    }
+                    command = CreateStringWhereCondition(command, FiltraNome, FiltraSesso, Games, Sport, Event, Medal);
 
                     command.CommandText += "ORDER BY Id OFFSET " + (PageNumber - 1) * ElementsForPage + " ROWS FETCH NEXT " + ElementsForPage + " ROWS ONLY; ";
                     //MessageBox.Show(command.CommandText);
@@ -218,70 +226,24 @@ namespace Olympics.Controllers
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                try
-                {
-                    connection.Open();
-                    SqlCommand command = new SqlCommand();
-                    command.Connection = connection;
-                    command.CommandText = "SELECT COUNT(*) FROM athletes ";
-
-                    if (!(FiltraNome is null && FiltraSesso is null && Games is null && Event is null && Medal is null))
-                    {
-                        command.CommandText += "WHERE";
-
-                        if (!(FiltraNome is null))
-                        {
-                            command.CommandText += " Name LIKE @FiltraNome AND";
-                            command.Parameters.AddWithValue("@FiltraNome", $"%{FiltraNome}%");
-                        }
-
-                        if (!(FiltraSesso is null))
-                        {
-                            command.CommandText += " Sex = @FiltraSesso AND";
-                            command.Parameters.AddWithValue("@FiltraSesso", FiltraSesso);
-                        }
-
-                        if (!(Games is null))
-                        {
-                            command.CommandText += " Games = @Games AND";
-                            command.Parameters.AddWithValue("@Games", Games);
-                        }
-
-                        if (!(Sport is null))
-                        {
-                            command.CommandText += " Sport = @Sport AND";
-                            command.Parameters.AddWithValue("@Sport", Sport);
-                        }
-
-                        if (!(Event is null))
-                        {
-                            command.CommandText += " Event = @Event AND";
-                            command.Parameters.AddWithValue("@Event", Event);
-                        }
-
-                        if (!(Medal is null))
-                        {
-                            command.CommandText += " Medal = @Medal AND";
-                            command.Parameters.AddWithValue("@Medal", Medal);
-                        }
-
-                        command.CommandText = command.CommandText.Substring(0, command.CommandText.Length - 3);
-                    }
-                    if ((int)command.ExecuteScalar() == 0)
-                        return 0;
-                    else
-                        return (int)command.ExecuteScalar() / ElementsForPage + 1;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+                
+                connection.Open();
+                SqlCommand command = new SqlCommand();
+                command.Connection = connection;
+                command = CreateStringWhereCondition(command, FiltraNome, FiltraSesso, Games, Sport, Event, Medal);
+                command.CommandText = command.CommandText.Replace("*", "COUNT(*)");
+                
+                if ((int)command.ExecuteScalar() == 0)
+                    return 0;
+                else
+                    return (int)command.ExecuteScalar() / ElementsForPage + 1;
+                
             }
         }
 
-        public static string StringLabelPagina(int? PageNumber, int ElementsForPage)
+        public static string StringLabelPagina(int? PageNumber, int Pages)
         {
-            return "Pagina " + PageNumber + " di " + ElementsForPage;
+            return "Pagina " + PageNumber + " di " + Pages;
         }
 
     }
