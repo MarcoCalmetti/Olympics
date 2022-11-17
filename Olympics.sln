@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.32901.82
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Olympics", "Olympics\Olympics.csproj", "{D0ABC318-45FB-4A4D-82E3-FBACFB1325D8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OlympicsEF", "OlympicsEF\OlympicsEF.csproj", "{E0058101-DAE2-4E26-A4D7-7154E5C624F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OlympicsStatistics", "OlympicsStatistics\OlympicsStatistics.csproj", "{04F50E74-0BBB-4C00-9054-DAC8599172D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{D0ABC318-45FB-4A4D-82E3-FBACFB1325D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0ABC318-45FB-4A4D-82E3-FBACFB1325D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0ABC318-45FB-4A4D-82E3-FBACFB1325D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0058101-DAE2-4E26-A4D7-7154E5C624F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0058101-DAE2-4E26-A4D7-7154E5C624F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0058101-DAE2-4E26-A4D7-7154E5C624F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0058101-DAE2-4E26-A4D7-7154E5C624F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04F50E74-0BBB-4C00-9054-DAC8599172D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04F50E74-0BBB-4C00-9054-DAC8599172D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04F50E74-0BBB-4C00-9054-DAC8599172D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04F50E74-0BBB-4C00-9054-DAC8599172D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
